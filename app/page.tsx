@@ -33,34 +33,6 @@ export default function Home() {
           Click Me
         </motion.button>
       </section>
-
-      <section className="w-full overflow-hidden pt-10 pb-10 relative">
-        <motion.div
-          className="flex gap-6 whitespace-nowrap"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ willChange: "transform" }}
-        >
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="card flex-shrink-0 w-64 h-80 inline-block">
-              <img
-                src="/cream.jpg"
-                alt={`Card ${i + 1}`}
-                className="w-full h-full object-cover rounded-xl"
-              />
-            </div>
-          ))}
-          {[...Array(6)].map((_, i) => (
-            <div key={i + 6} className="card flex-shrink-0 w-64 h-80 inline-block">
-              <img
-                src="/cream.jpg"
-                alt={`Card duplicate ${i + 1}`}
-                className="w-full h-full object-cover rounded-xl"
-              />
-            </div>
-          ))}
-        </motion.div>
-      </section>
     </main>
   );
 }
