@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingCart, User, Droplet, ChevronRight } from 'lucide-react';
-import logoImage from '@/public/logo-kenko.svg';
 
 const navLinksLeft = ['Bottles', 'Pitchers', 'Shop all'];
 const navLinksRight = ['Technology', 'Water quality'];
@@ -51,17 +50,6 @@ const trendingProducts = [
   },
 ];
 
-const slideVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 40 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-
 const collections = [
   {
     id: 1,
@@ -85,10 +73,22 @@ const collections = [
   },
 ];
 
+const exploreLinks = [
+  'Our Technology',
+  'Sustainability',
+  'Reviews',
+  'About Us',
+];
+
+const footerLinks = [
+  { name: 'Login', href: '/login' },
+  { name: 'Gifting', href: '/gifting' },
+  { name: 'FAQ', href: '/faq' },
+];
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Prevent background scroll when menu is open
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -136,8 +136,8 @@ export default function Header() {
   };
 
   const megaMenuStyles: React.CSSProperties = {
-    position: 'absolute',
-    top: '100%',
+    position: 'fixed',
+    top: '88px',
     left: 0,
     right: 0,
     backdropFilter: 'blur(12px)',
@@ -145,7 +145,9 @@ export default function Header() {
     background: 'linear-gradient(90deg, #fff8f4 0%, #f6f9fd 60%, #e9f5fc 100%)',
     borderBottom: '1px solid rgba(229,231,235,0.5)',
     boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-    overflow: 'hidden',
+    overflowY: 'auto',
+    maxHeight: 'calc(100vh - 88px)',
+    zIndex: 40,
   };
 
   return (
@@ -187,9 +189,9 @@ export default function Header() {
             className="hidden-mobile"
           >
             {navLinksLeft.map((link) => (
-              <motion.li key={link} whileHover={{ scale: 1.08 }} style={linkStyle}>
-                {link}
-              </motion.li>
+              <li key={link} className="nav-link-wrapper" style={{ position: 'relative' }}>
+                <span style={linkStyle}>{link}</span>
+              </li>
             ))}
           </ul>
         </div>
@@ -200,7 +202,7 @@ export default function Header() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           style={{
-            position: 'static',
+            position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
             height: '100%',
@@ -208,7 +210,7 @@ export default function Header() {
           }}
           className="hidden-mobile"
         >
-          <img src={logoImage.src} alt="KenkoHomu Logo" style={{ height: '80px', width: 'auto', objectFit: 'cover' }} />
+          <img src="/logo-kenko.svg" alt="KenkoHomu Logo" style={{ height: '80px', width: 'auto', objectFit: 'cover' }} />
         </motion.div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
@@ -224,9 +226,9 @@ export default function Header() {
             className="hidden-mobile"
           >
             {navLinksRight.map((link) => (
-              <motion.li key={link} whileHover={{ scale: 1.08 }} style={linkStyle}>
-                {link}
-              </motion.li>
+              <li key={link} className="nav-link-wrapper" style={{ position: 'relative' }}>
+                <span style={linkStyle}>{link}</span>
+              </li>
             ))}
           </ul>
 
@@ -241,179 +243,277 @@ export default function Header() {
         </div>
       </div>
 
-      {/* MOBILE MEGAMENU */}
+      {/* MEGAMENU */}
       <AnimatePresence>
-  {menuOpen && (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3 }}
-      style={megaMenuStyles}
-    >
-      <div style={{ padding: '24px 8vw', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {/* Now Trending Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{ marginBottom: '48px' }}
-        >
-          <h2
-            style={{
-              fontSize: '12px',
-              fontWeight: 'bold',
-              letterSpacing: '0.05em',
-              color: '#0a2342',
-              marginBottom: '16px',
-              textTransform: 'uppercase',
-            }}
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            style={megaMenuStyles}
           >
-            Now Trending
-          </h2>
-
-          <div style={{ overflowX: 'hidden' }}>
-            <motion.div
-              drag="x"
-              dragConstraints={{
-                left: -((trendingProducts.length - 1) * 220),
-                right: 0,
-              }}
-              style={{
-                display: 'flex',
-                gap: '16px',
-                cursor: 'grab',
-                paddingBottom: '8px',
-              }}
-            >
-              {trendingProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.2 + index * 0.1, // staggered animation
-                    ease: [0.25, 1, 0.5, 1],
-                  }}
-                  whileHover={{ scale: 1.02 }}
+            <div style={{ padding: '24px 8vw', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Now Trending Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <h2
                   style={{
-                    width: '220px',
-                    minWidth: '220px',
-                    height: '280px',
-                    background: 'linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)',
-                    borderRadius: '16px',
-                    padding: '16px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    letterSpacing: '0.05em',
+                    color: 'rgba(10,35,66,0.8)',
+                    marginBottom: '16px',
+                    textTransform: 'uppercase',
                   }}
                 >
-                  {product.badge && (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: '12px',
-                        left: '12px',
-                        fontSize: '10px',
-                        fontWeight: 'bold',
-                        letterSpacing: '0.05em',
-                        color: '#2563eb',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {product.badge}
-                    </span>
-                  )}
-                  <motion.img
-                    whileHover={{ scale: 1.05 }}
-                    src={product.Image}
-                    alt={product.name}
-                    style={{
-                      width: '100%',
-                      height: '60%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                  <div style={{ textAlign: 'center' }}>
-                    <h3 style={{ fontWeight: 600, fontSize: '14px', color: '#0a2342' }}>{product.name}</h3>
-                    <p style={{ fontSize: '14px', color: '#0a2342' }}>{product.price}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
+                  Now Trending
+                </h2>
 
-        {/* Collections Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <h2
-            style={{
-              fontSize: '12px',
-              fontWeight: 'bold',
-              letterSpacing: '0.05em',
-              color: '#0a2342',
-              marginBottom: '24px',
-              textTransform: 'uppercase',
-            }}
-          >
-            Collections
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-              gap: '16px',
-            }}
-          >
-            {collections.map((collection) => (
-              <motion.div
-                key={collection.id}
-                whileHover={{ x: 4 }}
-                style={{
-                  cursor: 'pointer',
-                  padding: '16px',
-                  border: '1px solid rgba(229,231,235,0.5)',
-                  borderRadius: '12px',
-                  backgroundColor: '#fff',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                  <div>
-                    <h3
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: '16px',
-                        color: '#0a2342',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      {collection.name}
-                    </h3>
-                    <p style={{ fontSize: '14px', color: '#6b7280' }}>{collection.description}</p>
+                <div style={{ overflowX: 'auto', scrollSnapType: 'x mandatory', scrollBehavior: 'smooth' }} className="scrollbar-hide">
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '16px',
+                      paddingBottom: '8px',
+                    }}
+                  >
+                    {trendingProducts.map((product, index) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: 0.1 + index * 0.05,
+                        }}
+                        style={{
+                          flexShrink: 0,
+                          width: '280px',
+                          height: '320px',
+                          background: 'linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)',
+                          borderRadius: '16px',
+                          padding: '16px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          scrollSnapAlign: 'start',
+                        }}
+                      >
+                        {product.badge && (
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: '12px',
+                              left: '12px',
+                              fontSize: '10px',
+                              fontWeight: 'bold',
+                              letterSpacing: '0.05em',
+                              color: '#2563eb',
+                              textTransform: 'uppercase',
+                              zIndex: 10,
+                            }}
+                          >
+                            {product.badge}
+                          </span>
+                        )}
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px', overflow: 'hidden', borderRadius: '12px' }}>
+                          <motion.img
+                            whileHover={{ scale: 1.08 }}
+                            transition={{ duration: 0.3 }}
+                            src={product.Image}
+                            alt={product.name}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                            }}
+                          />
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <h3 style={{ fontWeight: 600, fontSize: '14px', color: '#0a2342', marginBottom: '4px' }}>
+                            {product.name}
+                          </h3>
+                          <p style={{ fontSize: '14px', color: 'rgba(10,35,66,0.7)' }}>{product.price}</p>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
-                  <ChevronRight style={{ width: '20px', height: '20px', color: '#0a2342' }} />
                 </div>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
 
+              {/* DIVIDER */}
+              <div style={{ height: '1px', background: 'rgba(229,231,235,0.3)' }} />
+
+              {/* Collections Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <h2
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    letterSpacing: '0.05em',
+                    color: 'rgba(10,35,66,0.8)',
+                    marginBottom: '16px',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Collections
+                </h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {collections.map((collection) => (
+                    <motion.div
+                      key={collection.id}
+                      whileHover={{ x: 4, backgroundColor: 'rgba(0,0,0,0.02)' }}
+                      transition={{ duration: 0.2 }}
+                      style={{
+                        cursor: 'pointer',
+                        padding: '12px 16px',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        borderBottom: '1px solid rgba(229,231,235,0.2)',
+                      }}
+                    >
+                      <div>
+                        <h3
+                          style={{
+                            fontWeight: 600,
+                            fontSize: '16px',
+                            color: '#0a2342',
+                            marginBottom: '2px',
+                          }}
+                        >
+                          {collection.name}
+                        </h3>
+                        <p style={{ fontSize: '14px', color: '#6b7280' }}>{collection.description}</p>
+                      </div>
+                      <ChevronRight style={{ width: '20px', height: '20px', color: 'rgba(10,35,66,0.5)' }} />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* DIVIDER */}
+              <div style={{ height: '1px', background: 'rgba(229,231,235,0.3)' }} />
+
+              {/* Explore Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <h2
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    letterSpacing: '0.05em',
+                    color: 'rgba(10,35,66,0.8)',
+                    marginBottom: '16px',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Explore
+                </h2>
+                <div style={{ display: 'flex-start',  flexDirection: 'column', gap: '4px' }}>
+                  {exploreLinks.map((link) => (
+                    <motion.div
+                      key={link}
+                      whileHover={{ x: 4, backgroundColor: 'rgba(0,0,0,0.02)' }}
+                      transition={{ duration: 0.2 }}
+                      style={{
+                        cursor: 'pointer',
+                        padding: '12px 16px',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'left',
+                        justifyContent: 'space-between',
+                        borderBottom: '1px solid rgba(229,231,235,0.2)',
+                      }}
+                    >
+                      <span style={{ fontWeight: 500, fontSize: '16px', color: '#0a2342' }}>{link}</span>
+                      <ChevronRight style={{ width: '20px', height: '20px', color: 'rgba(10,35,66,0.5)' }} />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* DIVIDER */}
+              <div style={{ height: '1px', background: 'rgba(229,231,235,0.3)' }} />
+
+              {/* Footer Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '20px', color: '#6b7280', paddingBottom: '8px' }}
+              >
+                {footerLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    style={{
+                      color: '#6b7280',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0a2342')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#6b7280')}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>
         {`
+          /* Nav link rectangular hover ring */
+          .nav-link-wrapper {
+            position: relative;
+          }
+          
+          .nav-link-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 12px);
+            height: calc(100% + 12px);
+            border: 2px solid #2563eb;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+          }
+          
+          .nav-link-wrapper:hover::before {
+            opacity: 1;
+          }
+
+          /* Scrollbar hide */
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+
           @media (max-width: 1024px) {
             .hidden-mobile {
               display: none !important;
