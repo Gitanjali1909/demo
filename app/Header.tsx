@@ -137,7 +137,7 @@ export default function Header() {
 
   const megaMenuStyles: React.CSSProperties = {
     position: 'fixed',
-    top: '88px',
+    top: '70px',
     left: 0,
     right: 0,
     backdropFilter: 'blur(12px)',
