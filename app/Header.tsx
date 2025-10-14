@@ -203,7 +203,7 @@ export default function Header() {
           transition={{ duration: 0.6 }}
           style={{
             position: 'absolute',
-            left: '50%',
+            left: '46%',
             transform: 'translateX(-50%)',
             height: '100%',
             width: 'auto',
