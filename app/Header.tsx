@@ -4,6 +4,9 @@ import { Menu, X, ShoppingCart, User, Droplet, ChevronRight } from 'lucide-react
 
 const navLinksLeft = ['Bottles', 'Pitchers', 'Shop all'];
 const navLinksRight = ['Technology', 'Water quality'];
+const favoriteCount = 0;
+const cartCount = 0;
+
 
 const trendingProducts = [
   {

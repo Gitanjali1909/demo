@@ -1,8 +1,8 @@
 'use client';
 import { useEffect } from 'react';
 import './globals.css';
-import Header from './Header';
 import Footer from './Footer';
+import NewHeader from './NewHeader';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-        <Header />
+        <NewHeader />
         <main className="flex-grow">{children}</main>
         <Footer />
       </body>
