@@ -1,18 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Instagram, Facebook, Youtube } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Instagram, Facebook, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
-  const [country, setCountry] = useState('United States');
-  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Subscribe:', email);
-    // Add subscription logic here
   };
 
   const navigationLinks = {
@@ -49,88 +46,41 @@ const Footer = () => {
     <footer className="w-full bg-gradient-to-br from-amber-50 via-blue-50 to-purple-50 pt-16 pb-8 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
           {/* Left Section - Newsletter */}
           <div className="lg:col-span-3">
             <h2
-              className="text-2xl md:text-3xl font-bold text-blue-900 mb-6"
+              className="text-3xl font-bold text-blue-900 mb-6"
               style={{ fontFamily: 'Arial, sans-serif', letterSpacing: '0.05em' }}
             >
-              LARQ
+              KENKOHOMU
             </h2>
             <p className="text-sm text-gray-600 mb-6 leading-relaxed">
               Receive exclusive offers, hydration news, and more when you subscribe.
             </p>
 
-            {/* Email Subscription Form */}
             <form onSubmit={handleSubscribe} className="mb-6">
-              <div className="flex items-center bg-white rounded-full shadow-sm border border-gray-200 overflow-hidden mb-4">
+              <div className="flex items-center bg-white rounded-full shadow-sm border border-gray-200 overflow-hidden">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="flex-1 px-5 py-3 text-sm outline-none bg-transparent"
+                  className="flex-1 px-6 py-3 text-sm outline-none bg-transparent"
                   required
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 text-sm font-medium text-blue-900 hover:text-blue-700 transition-colors"
+                  className="px-2 py-3 text-sm font-medium text-blue-900 hover:text-blue-700 transition-colors"
                 >
                   Subscribe
                 </button>
               </div>
             </form>
-
-            {/* Country Selector */}
-            <div className="relative">
-              <button
-                onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                className="flex items-center gap-3 px-5 py-3 bg-white rounded-full shadow-sm border border-gray-200 hover:border-gray-300 transition-colors w-full md:w-auto"
-              >
-                <span className="text-2xl">
-                  {country === 'United States'
-                    ? '🇺🇸'
-                    : country === 'United Kingdom'
-                    ? '🇬🇧'
-                    : '🇨🇦'}
-                </span>
-                <span className="text-sm text-gray-700">{country}</span>
-                <ChevronDown className="w-4 h-4 text-gray-500" />
-              </button>
-
-              <AnimatePresence>
-                {showCountryDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute bottom-0 translate-y-full mt-2 left-0 bg-white rounded-lg shadow-lg border border-gray-200 py-2 w-full md:w-64 z-10"
-                  >
-                    {['United States', 'United Kingdom', 'Canada'].map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => {
-                          setCountry(c);
-                          setShowCountryDropdown(false);
-                        }}
-                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3"
-                      >
-                        <span className="text-xl">
-                          {c === 'United States' ? '🇺🇸' : c === 'United Kingdom' ? '🇬🇧' : '🇨🇦'}
-                        </span>
-                        <span>{c}</span>
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
           </div>
 
           {/* Navigation Links */}
-          <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
             {Object.values(navigationLinks).map((column, i) => (
               <div key={i} className="space-y-4">
                 {column.map((link, index) => (
@@ -180,7 +130,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Copyright & Legal Links */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 text-xs text-gray-600">
-              <span>© LARQ, 2025</span>
+              <span>© KENKOHOMU, 2025</span>
               {legalLinks.map((link, index) => (
                 <a key={index} href={link.href} className="hover:text-blue-900 transition-colors">
                   {link.label}
@@ -200,7 +150,7 @@ const Footer = () => {
                 </a>
               ))}
 
-              {/* TikTok icon (custom SVG) */}
+              {/* TikTok icon */}
               <a
                 href="#"
                 className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-200 flex items-center justify-center hover:border-blue-900 transition-colors"
